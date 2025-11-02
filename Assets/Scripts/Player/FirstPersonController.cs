@@ -21,6 +21,8 @@ public class FirstPersonController : NetworkBehaviour
     [SerializeField] private Camera mainCamera;
     [SerializeField] private PlayerMovement playerInputHandler;
 
+    [SerializeField] private Animator animator;
+
     private Vector3 currentMovement;
     private float verticalRotation;
 
@@ -76,6 +78,10 @@ public class FirstPersonController : NetworkBehaviour
 
         currentMovement.x = worldDirection.x * walkSpeed * (sprint ? sprintMultiplier : 1);
         currentMovement.z = worldDirection.z * walkSpeed * (sprint ? sprintMultiplier : 1);
+
+        float currentSpeed = new Vector3(currentMovement.x, 0f, currentMovement.z).magnitude;
+        Debug.Log(currentSpeed);
+        animator.SetFloat("Speed", currentSpeed);
 
         HandleJumping();
         characterController.Move(currentMovement * Time.fixedDeltaTime);
